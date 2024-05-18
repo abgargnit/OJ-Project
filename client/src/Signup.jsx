@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Signup() {
 
     const [name,setName]=useState()
     const [email,setEmail]=useState()
-    const [password,setpassword]=useState()
+    const [password,setPassword]=useState()
+    const navigate=useNavigate()
     const handlesubmit = (e)=>{
         e.preventDefault()
+        axios.post('http://localhost:3001/register',{name,email,password})  // This will post the data to the server side
+        .then(result => {console.log(result)
+        navigate('/login')
+        })
+        .catch(err=> console.log(err))
     }
 
     return (
@@ -50,17 +58,20 @@ function Signup() {
                         placeholder="Enter Password"
                         autoComplete="off"
                         name="password"
-                        className="form-control rounded-0" />
-                        onChange={(e)=>setpassword(e.target.value)}
+                        className="form-control rounded-0"
+                        onChange={(e)=>setPassword(e.target.value)} 
+                        />
+                        
                     </div>
                     <button type="Submit" className="btn btn-success w-100 rounded-0">
                         Register
                     </button>
+                    </form>
                     <p>Already have an acoount?</p>
-                    <button className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none">
+                    <Link to="/login" className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none">
                         Login
-                    </button>
-                </form>
+                    </Link>
+                
             </div>
 
         </div>
